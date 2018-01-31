@@ -62,12 +62,11 @@ class TcpClientSimul
   {
     // String FromServer;
     // String ToServer;
-    Socket clientSocketS = new Socket("localhost",5000);
-    Socket clientSocketR = new Socket("localhost",6000);
+    Socket clientSocket = new Socket("localhost",5000);
 
-    Thread r = new Receive(clientSocketR);
+    Thread r = new Receive(clientSocket);
     r.start();
-    Thread s = new Send(clientSocketS);    
+    Thread s = new Send(clientSocket);    
     s.start();
 
     // BufferedReader inFromUser= new BufferedReader(new InputStreamReader(System.in));

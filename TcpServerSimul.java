@@ -4,15 +4,16 @@ import java.net.*;
 class Send extends Thread
 {
   ServerSocket server;
-  public Send(ServerSocket server1) {
+  Socket connected;
+  public Send(ServerSocket server1,Socket connected1) {
     server = server1;
+	connected=connected1;
   }
 
   public void run() {
     String toClient;
 
     try {
-      Socket connected=server.accept();
       System.out.println("TCPServer waiting for client on port 5000");
       System.out.println(" THE CLIENT "+ connected.getInetAddress() + " is on sending port " + connected.getPort());
       while (true) {
@@ -39,15 +40,16 @@ class Send extends Thread
 class Receive extends Thread
 {
   ServerSocket server;
-  public Receive(ServerSocket server1) {
+  Socket connected;
+  public Receive(ServerSocket server1,Socket connected1) {
     server = server1;
+	connected=connected1;
   }
 
   public void run() {
     String fromClient;
 
     try {
-      Socket connected=server.accept();
       System.out.println(" THE CLIENT "+ connected.getInetAddress() + " is on receiving port " + connected.getPort());
       while (true) {
         BufferedReader inFromClient = new BufferedReader( new InputStreamReader(connected.getInputStream()));
@@ -72,12 +74,12 @@ class TcpServerSimul
   public static void main(String args[]) throws IOException
   {
     // String fromclient,toclient;
-    ServerSocket serverR = new ServerSocket(5000);
-    ServerSocket serverS = new ServerSocket(6000);
+    ServerSocket server = new ServerSocket(5000);
+	Socket connected=server.accept();
 
-    Thread r = new Receive(serverR);
+    Thread r = new Receive(server,connected);
     r.start();
-    Thread s = new Receive(serverS);
+    Thread s = new Receive(server,connected);
     s.start();
     // System.out.println("TCPServer waiting for client on port 5000");
     // while(true)
