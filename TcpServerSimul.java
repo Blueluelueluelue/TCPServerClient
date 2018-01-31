@@ -71,16 +71,22 @@ class Receive extends Thread
 
 class TcpServerSimul
 {
-  public static void main(String args[]) throws IOException
+  public static void main(String[] args)
   {
-    // String fromclient,toclient;
-    ServerSocket server = new ServerSocket(5000);
-	Socket connected=server.accept();
+	  try{
+		   ServerSocket server = new ServerSocket(5000);
+			Socket connected=server.accept();
 
-    Thread r = new Receive(server,connected);
-    r.start();
-    Thread s = new Receive(server,connected);
-    s.start();
+			Thread r = new Receive(server,connected);
+			r.start();
+			Thread s = new Send(server,connected);
+			s.start();
+	  }
+	  catch(Exception e){
+		  
+	  }
+    // String fromclient,toclient;
+   
     // System.out.println("TCPServer waiting for client on port 5000");
     // while(true)
     // {
